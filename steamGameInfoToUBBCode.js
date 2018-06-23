@@ -9,54 +9,52 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
 	'use strict';
 	//添加安利按钮和安利内容区域
-	$('.queue_ctn ').append('<button id="button-anli" type="button">安利</button><textarea id="anliOutput" style="display:block;width:100%; height:5em;"></textarea>');
+	$('.queue_ctn ').append('<textarea id="anliOutput" style="display:block;width:100%; height:5em; background: #54606c;"></textarea>');
 
-	$('#button-anli').ready(()=>{
-		$('#button-anli').click(()=>{
+	$('#button-anli').ready(() => {
 		'use strict';
-	//获取游戏截图图片列表
-	let gameName = '';
-	let gameCover = '';
-	let gameLink = '';
-	let gameScreenshotList = [];
-	let gameDesc = '';
+		//获取游戏截图图片列表
+		let gameName           = '';
+		let gameCover          = '';
+		let gameLink           = '';
+		let gameScreenshotList = [];
+		let gameDesc           = '';
 
-	//获取游戏截图列表
-	$('.highlight_strip_screenshot img').each((index,item)=>{
-		gameScreenshotList.push( '[img]'+$(item).attr('src').replace('.116x65','')+'[/img]');
-});
+		//获取游戏截图列表
+		$('.highlight_strip_screenshot img').each((index, item) => {
+			gameScreenshotList.push('[img]' + $(item).attr('src').replace('.116x65', '') + '[/img]');
+		});
 
-	//获取游戏封面图
-	gameCover = $('.game_header_image_full').attr('src');
+		//获取游戏封面图
+		gameCover = $('.game_header_image_full').attr('src');
 
-	//获取游戏名称
-	gameName = $('.apphub_AppName').text();
+		//获取游戏名称
+		gameName = $('.apphub_AppName').text();
 
-	//获取游戏商店地址
-	gameLink = window.location.href;
+		//获取游戏商店地址
+		gameLink = window.location.href;
 
-	//获取游戏简介
-	gameDesc = $('.game_description_snippet').eq(0).text().trim();
+		//获取游戏简介
+		gameDesc = $('.game_description_snippet').eq(0).text().trim();
 
-	//开始生成游戏安利内容
-	let template = `
+		//开始生成游戏安利内容
+		let template = `
 游戏名称：[u][b]{gameName}[/b][/u]\n
 [url={gameLink}][img]{gameCover}[/img][/url]\n
 [b]内容简介：{gameDesc}[/b]\n
 {gameScreenshot}`;
 
-	let outStr = template;
-	outStr = outStr.replace(/{gameName}/g,gameName);
-	outStr = outStr.replace(/{gameLink}/g,gameLink);
-	outStr = outStr.replace(/{gameCover}/g,gameCover);
-	outStr = outStr.replace(/{gameDesc}/g,gameDesc);
-	outStr = outStr.replace(/{gameScreenshot}/g,gameScreenshotList.join('\n'));
+		let outStr = template;
+		outStr     = outStr.replace(/{gameName}/g, gameName);
+		outStr     = outStr.replace(/{gameLink}/g, gameLink);
+		outStr     = outStr.replace(/{gameCover}/g, gameCover);
+		outStr     = outStr.replace(/{gameDesc}/g, gameDesc);
+		outStr     = outStr.replace(/{gameScreenshot}/g, gameScreenshotList.join('\n'));
 
-	console.log(outStr);
-	$('#anliOutput').text(outStr);
-});
-});
+		console.log(outStr);
+		$('#anliOutput').text(outStr);
+	});
 })();
